@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.logincompose.navigation.AppNavGraph
 import com.example.logincompose.data.SessionManager
 
@@ -20,6 +21,9 @@ import com.example.logincompose.data.SessionManager
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Instala la pantalla de splash antes de super.onCreate()
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         
         // Habilita el diseño de borde a borde (edge-to-edge)
