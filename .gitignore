@@ -1,0 +1,75 @@
+# =========================
+# Android / Gradle
+# =========================
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+.gradle/
+
+# Local configuration file (SDK path, etc)
+local.properties
+
+# =========================
+# Android Studio
+# =========================
+.idea/
+.idea/*
+*.iml
+*.iws
+*.ipr
+
+# Navigation editor temp files
+.navigation/
+
+# Android Studio captures
+captures/
+
+# =========================
+# Kotlin
+# =========================
+*.kotlin_module
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Keystore files (IMPORTANT)
+# =========================
+*.jks
+*.keystore
+
+# =========================
+# CI / Temp
+# =========================
+.externalNativeBuild/
+.cxx/
+
+# =========================
+# Fastlane (si algún día usas)
+# =========================
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# =========================
+# VS Code (si lo usas)
+# =========================
+.vscode/
+
