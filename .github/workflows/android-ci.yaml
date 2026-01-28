@@ -5,22 +5,22 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-and-trigger-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️ Checkout
       - name: Checkout código
         uses: actions/checkout@v4
-
+        
+      # 2 Java
       - name: Configurar JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Permisos para ejecutar gradlew
-        run: chmod +x ./gradlew
-
+      
+      # 3 Cache Gradle
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -28,22 +28,33 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
 
+      # 4 Permisos Gradle
+      - name: Permisos para ejecutar gradlew
+        run: chmod +x ./gradlew
+      
+      # 5 Build APK
       - name: Build APK Debug
         run: |
           ./gradlew assembleDebug
 
+      # 6 Verificar APK
       - name: Verificar APK
         run: |
           ls -lh app/build/outputs/apk/debug/
 
+      # 7 Subir APK como artifact
       - name: Subir APK como artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
-
-      - name: Disparar pruebas QA (Repo Tests)
+          retention-days: 7
+    
+      # 8 Disparar repo de test
+      - name: Ejecutar pruebas mobile
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
@@ -52,8 +63,11 @@ jobs:
             -d '{
               "event_type": "run-mobile-tests",
               "client_payload": {
-                "apk_name": "app-debug.apk",
-                "branch": "${{ github.ref_name }}",
-                "commit": "${{ github.sha }}"
+                "app_repo": "'"${{ github.repository }}"'", 
+                "run_id": "'"${{ github.run_id }}"'", 
+                "artifact_name": "app-debug-apk", 
+                "apk_path": "app-debug.apk", 
+                "branch": "'"${{ github.ref_name }}"'", 
+                "commit": "'"${{ github.sha }}"'"
               }
             }'
