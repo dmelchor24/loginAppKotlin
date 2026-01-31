@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.logincompose.utils.TestTags
 
 /**
  * Pantalla principal que se muestra después de un inicio de sesión exitoso.
@@ -80,7 +81,9 @@ fun HomeScreen(onLogout: () -> Unit) {
             // Botón secundario para cerrar sesión
             OutlinedButton(
                 onClick = onLogout,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(TestTags.LOGOUT_BUTTON),
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = MaterialTheme.colorScheme.error
                 )

@@ -10,4 +10,7 @@ object TestTags {
     const val FORGOT_PASSWORD_BUTTON = "forgot_password_button"
 
     const val ERROR_MESSAGE = "login_error_message"
+
+    const val LOGOUT_BUTTON = "logout_button"
+
 }
