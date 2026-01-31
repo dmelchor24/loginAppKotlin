@@ -67,7 +67,8 @@ fun HomeScreen(onLogout: () -> Unit) {
                 text = "¡Bienvenido!",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.testTag("homeTitle")
+                modifier = Modifier
+                    .testTag(TestTags.HOME_TITLE)
             )
             
             Text(

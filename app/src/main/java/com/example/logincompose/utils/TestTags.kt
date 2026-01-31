@@ -13,4 +13,6 @@ object TestTags {
 
     const val LOGOUT_BUTTON = "logout_button"
 
+    const val HOME_TITLE = "home_title"
+
 }
