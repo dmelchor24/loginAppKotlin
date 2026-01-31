@@ -1,26 +1,28 @@
-name: Android CI - Build & Trigger QA
+name: Android CI - Compilación y Activación de QA
 
+# Este flujo de trabajo se activa en cada push a la rama principal (main)
 on:
   push:
     branches: [ "main" ]
 
 jobs:
   build-and-trigger-tests:
+    name: Compilar y Ejecutar Pruebas
     runs-on: ubuntu-latest
 
     steps:
-      # 1️ Checkout
+      # 1. Obtener el código del repositorio
       - name: Checkout código
         uses: actions/checkout@v4
         
-      # 2 Java
+      # 2. Configurar el entorno de Java
       - name: Configurar JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
       
-      # 3 Cache Gradle
+      # 3. Cachear las dependencias de Gradle para acelerar compilaciones futuras
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -31,29 +33,29 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      # 4 Permisos Gradle
+      # 4. Otorgar permisos de ejecución al script de Gradle
       - name: Permisos para ejecutar gradlew
         run: chmod +x ./gradlew
       
-      # 5 Build APK
+      # 5. Compilar la aplicación en modo Debug para generar el APK
       - name: Build APK Debug
         run: |
           ./gradlew assembleDebug
 
-      # 6 Verificar APK
+      # 6. Verificar que el archivo APK se haya generado correctamente
       - name: Verificar APK
         run: |
           ls -lh app/build/outputs/apk/debug/
 
-      # 7 Subir APK como artifact
-      - name: Subir APK como artifact
+      # 7. Guardar el APK como un artefacto del flujo de trabajo
+      - name: Subir APK como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 7
     
-      # 8 Disparar repo de test
+      # 8. Notificar al repositorio de pruebas para iniciar la ejecución de tests automatizados
       - name: Ejecutar pruebas mobile
         run: |
           curl -X POST \

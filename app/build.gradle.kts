@@ -36,25 +36,35 @@ android {
 }
 
 dependencies {
+    // Librerías base de Android y Kotlin
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    
+    // Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
+    
+    // Pantalla de Splash y utilidades
     implementation(libs.androidx.core.splashscreen)
     
-    // Añadida dependencia para iconos extendidos de Material
+    // Dependencia para iconos extendidos de Material (necesario para Logout y otros)
     implementation("androidx.compose.material:material-icons-extended")
 
+    // Pruebas unitarias
     testImplementation(libs.junit)
+    
+    // Pruebas instrumentadas
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    
+    // Herramientas de depuración
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

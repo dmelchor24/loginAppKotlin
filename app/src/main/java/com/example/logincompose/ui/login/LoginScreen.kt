@@ -12,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -20,9 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.logincompose.utils.TestTags
 
+/**
+ * Pantalla de inicio de sesión de la aplicación.
+ * Permite al usuario ingresar sus credenciales para acceder al sistema.
+ * 
+ * @param onLoginSuccess Callback que se ejecuta cuando el inicio de sesión es exitoso.
+ */
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit) {
 
+    // Estados para el correo, contraseña, visibilidad de contraseña y mensajes de error
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -32,12 +41,13 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp)
-            .testTag("login_screen"),
+            .testTag(TestTags.LOGIN_SCREEN)
+            .semantics { contentDescription = TestTags.LOGIN_SCREEN },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        // 🔹 Título
+        // Título de la pantalla
         Text(
             text = "App de Testing",
             style = MaterialTheme.typography.headlineLarge,
@@ -46,9 +56,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .testTag(TestTags.LOGIN_TITLE)
+                .semantics { contentDescription = TestTags.LOGIN_TITLE }
         )
 
-        // 🔹 Email
+        // Campo de entrada para el correo electrónico
         OutlinedTextField(
             value = email,
             onValueChange = {
@@ -61,14 +72,15 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             isError = errorMessage != null,
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag(TestTags.EMAIL_INPUT),
+                .testTag(TestTags.EMAIL_INPUT)
+                .semantics { contentDescription = TestTags.EMAIL_INPUT },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             singleLine = true
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🔹 Password
+        // Campo de entrada para la contraseña
         OutlinedTextField(
             value = password,
             onValueChange = {
@@ -89,12 +101,13 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             isError = errorMessage != null,
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag(TestTags.PASSWORD_INPUT),
+                .testTag(TestTags.PASSWORD_INPUT)
+                .semantics { contentDescription = TestTags.PASSWORD_INPUT },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             singleLine = true
         )
 
-        // 🔹 Error
+        // Mensaje de error si la validación falla
         if (errorMessage != null) {
             Text(
                 text = errorMessage!!,
@@ -104,12 +117,13 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     .padding(top = 8.dp)
                     .align(Alignment.Start)
                     .testTag(TestTags.ERROR_MESSAGE)
+                    .semantics { contentDescription = TestTags.ERROR_MESSAGE }
             )
         }
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // 🔹 Login Button
+        // Botón para iniciar sesión con validaciones básicas
         Button(
             onClick = {
                 when {
@@ -126,18 +140,20 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .testTag(TestTags.LOGIN_BUTTON),
+                .testTag(TestTags.LOGIN_BUTTON)
+                .semantics { contentDescription = TestTags.LOGIN_BUTTON },
             shape = MaterialTheme.shapes.medium
         ) {
             Text("Iniciar Sesión", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         }
 
-        // 🔹 Forgot password
+        // Botón para recuperación de contraseña (sin funcionalidad actual)
         TextButton(
             onClick = { },
             modifier = Modifier
                 .padding(top = 16.dp)
                 .testTag(TestTags.FORGOT_PASSWORD_BUTTON)
+                .semantics { contentDescription = TestTags.FORGOT_PASSWORD_BUTTON }
         ) {
             Text("¿Olvidaste tu contraseña?")
         }

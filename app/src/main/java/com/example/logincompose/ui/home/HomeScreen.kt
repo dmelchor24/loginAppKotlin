@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.logincompose.utils.TestTags
@@ -22,6 +24,9 @@ import com.example.logincompose.utils.TestTags
 @Composable
 fun HomeScreen(onLogout: () -> Unit) {
     Scaffold(
+        modifier = Modifier
+            .testTag(TestTags.HOME_SCREEN)
+            .semantics { contentDescription = TestTags.HOME_SCREEN },
         topBar = {
             // Barra superior con título y botón de logout
             TopAppBar(
@@ -29,7 +34,9 @@ fun HomeScreen(onLogout: () -> Unit) {
                 actions = {
                     IconButton(
                         onClick = onLogout,
-                        modifier = Modifier.testTag("logoutButton")
+                        modifier = Modifier
+                            .testTag(TestTags.LOGOUT_BUTTON_TOP)
+                            .semantics { contentDescription = TestTags.LOGOUT_BUTTON_TOP }
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
@@ -69,6 +76,7 @@ fun HomeScreen(onLogout: () -> Unit) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .testTag(TestTags.HOME_TITLE)
+                    .semantics { contentDescription = TestTags.HOME_TITLE }
             )
             
             Text(
@@ -84,7 +92,8 @@ fun HomeScreen(onLogout: () -> Unit) {
                 onClick = onLogout,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag(TestTags.LOGOUT_BUTTON),
+                    .testTag(TestTags.LOGOUT_BUTTON_MAIN)
+                    .semantics { contentDescription = TestTags.LOGOUT_BUTTON_MAIN },
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = MaterialTheme.colorScheme.error
                 )
